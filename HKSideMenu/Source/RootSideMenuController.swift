@@ -8,6 +8,12 @@
 
 import UIKit
 
+/**
+ Represent Simple class that holds base logic for SideMenu displaying
+
+ - Version: 0.1
+ - Tag: 5000
+ */
 public class RootSideMenuController: UIViewController {
 
   enum Constants {
@@ -30,8 +36,10 @@ public class RootSideMenuController: UIViewController {
     }
   }
 
+  /// callbacks that will be called whenever side menu is opened or closed
   public var didOpenMenu, didCloseMenu: (() -> ())?
 
+  /// momentary state of side menu
   public private (set) var state: RootSideMenuState = .closed
 
   private var dimmedView: UIView = UIView()
@@ -65,10 +73,12 @@ public class RootSideMenuController: UIViewController {
 
   // MARK: - Public
 
+  /// Call this function to hide menu
   @objc public func hideMenu() {
     moveMenuToState(.closed)
   }
 
+  /// Call this function to show menu
   @objc public func showMenu() {
     moveMenuToState(.open)
   }
@@ -296,14 +306,17 @@ public class RootSideMenuController: UIViewController {
   }
 
   private func openMenuAction() {
-    if let moveAnimation = openMenuAnimation(), dimmedView.isHidden {
+    if let moveAnimation = openMenuAnimation() {
       menuController?.view.layer.add(moveAnimation, forKey:nil)
       menuController?.view.layer.position = calculateFinalOpenMenuPosition()
 
-      dimmedView.isHidden = false
-      dimmedView.layer.opacity = 1
-      let fadeInAnimation = fadeAnimFromValue(fromValue: CGFloat(1 - movingProgress), toValue: 1, delegate: self)
-      dimmedView.layer.add(fadeInAnimation, forKey: Constants.Animation.showDimmedView)
+      if dimmedView.isHidden {
+        dimmedView.isHidden = false
+        dimmedView.layer.opacity = 1
+
+        let fadeInAnimation = fadeAnimFromValue(fromValue: CGFloat(1 - movingProgress), toValue: 1, delegate: self)
+        dimmedView.layer.add(fadeInAnimation, forKey: Constants.Animation.showDimmedView)
+      }
       movingProgress = 1
     }
   }

@@ -1,8 +1,7 @@
-## CalendarView
+## SideMenu
 
 
-Lightweight lib for displaying singleView calendar in your app.
-Support any calendar supported by native iOS SDK.
+Lightweight pod for inegration simple sideMenu to your iOS app.
 
 <p align="left">
   <img alt="Swift" src="https://img.shields.io/badge/Swift-5-orange.svg">
@@ -17,7 +16,7 @@ Support any calendar supported by native iOS SDK.
 </p>
 
 <p align="center">
-  <img alt="demo" src="./blobs/demoCalendar.gif" width="300">
+  <img alt="demo" src="./blobs/demo.gif" width="300">
 </p>
 
 
@@ -28,151 +27,91 @@ Support any calendar supported by native iOS SDK.
 Simply add the following line to your Podfile:
 
 ```ruby
-pod 'HKCalendarView'
+pod 'HKSideMenu'
 ```
 
-This will download the CalendarView binaries and dependencies in `Pods/` during your next
+This will download the SideMenu binaries and dependencies in `Pods/` during your next
 `pod install` execution.
 
-This is the recommended way to install a specific version of CalendarView.
+This is the recommended way to install a specific version of SideMenu.
 
 
 ## Usage
 
-* add view to your interface and specify class name `CalendarView`
+* Create `Menu` for `SideMenu`. 
 
-
-<p align="center">
-  <img alt="demo" src="./blobs/addView.gif" width="300">
-</p>
-
-Or alternatively just create view in code and add it to your interface
+To do so, create `UIViewController` that conforms `MenuPresentable`. Override `storyboardName` - name for storyboard file in which Menu controller xib placed and `controllerIdentifier` - storyboard Id of controller.
+Below example for MenuController that placed inside `Main.storyboard` and have identifier `MenuController`
 
 ``` swift
-let calendarView = CalendarView(frame: CGRect(x: 0, y:0. width: 350, height: 350)
-let insets = UIEdgeInsets.zero // or any you like
-calendarView.translatesAutoresizingMaskIntoConstraints = false
+import UIKit
 
-let views = [
-	"subview": calendarView
-]
-let metrics = [
-	"left": insets.left,
-	"right": insets.right,
-	"top": insets.top,
-	"bottom": insets.bottom
-]
+final class MenuController: UIViewController, MenuPresentable {
 
-superview.addSubview(calendarView)
-var constraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|-left-[subview]-right-|",
-                                                       options: [.alignAllLeading, .alignAllTrailing],
-                                                       metrics: metrics,
-                                                       views: views)
-constraints.append(contentsOf: NSLayoutConstraint.constraints(withVisualFormat: "V:|-top-[subview]-bottom-|",
-	                                                    options: [.alignAllTop, .alignAllBottom],
-	                                                    metrics: metrics,
-	                                                    views: views))
-NSLayoutConstraint.activate(constraints)
-
-```
-
-* grab IBOutlet from View
-
-`@IBOutlet private weak var calendarView: CalendarView!`
-
-That's it - you done!
-
-### Advanced configuration
-
-User different delegates for preparing own version of UI
-
-Example - own UI
-
-``` swift
-extension ViewController: CalendarViewItemProviderDelegate {
-
-  func calendarView(didRequestBuildComponentsForRegistration calendarView: CalendarView) -> [CalendarItemPresentable.Type] {
-    /*you can provide array of items*/
-    return [MyDateItem.self]
+  static var storyboardName: String {
+    return "Main"
   }
 
-  func calendarView(_ calendarView: CalendarView, didRequestDateItemFor date: Date, calendar: Calendar, locale: Locale) -> CalendarDateItemPresentable {
-    /*create any item from provided array types in func above*/
-    let item = MyDateItem(date: date, calendar: calendar, locale: locale)
-    return item
-  }
-
-  func calendarView(_ calendarView: CalendarView,
-                    didRequestWeekDayItemFor style: CalendarWeekSymbolType,
-                    forWeekNameItem item: CalendarWeekDayViewPosition,
-                    poposedName name: String,
-                    calendar: Calendar,
-                    locale: Locale) -> CalendarWeekDayItemPresentable {
-    /*create any item from provided array types in func above*/
-    /*check poposedName and style and modify if u want*/
-    let item = MyDateItem(weekDayName: name, calendar: calendar, locale: locale)
-    return item
-  }
-
-  func calendarView(_ calendarView: CalendarView, didCompleteConfigure cell: CalendarItemConfigurable, for buildItem: CalendarItemPresentable) {
-    /*modify cell additionally as u wish here*/
+  static var controllerIdentifier: String {
+    return String(describing: MenuController.self)
   }
 }
+
 ```
 
-For details of configuration - please see example and documentation for each class
+Note: default implementation include next for `controllerIdentifier`:
 
-#### Result:
+``` swift
+  static var controllerIdentifier: String {
+    return String(describing: self)
+  }
+```
 
 <p align="center">
   <img alt="demo" src="./blobs/1.png" width="300">
 </p>
 
-Also u can use different options for changing behaviour of app.
+* Create `RootController` for `SideMenu`.
+
+This is controller, that will hold all content and side menu item.
+
+For creating rootController you should create/use class `RootSideMenuController`. This class should be informed where he should look for `Menu`. To inform class about it - set sideMenu type to `RootSideMenuAppearence.menuType` before `RootSideMenuController` loaded:
+
+`RootSideMenuAppearence.menuType = MenuController.self`
+
+Full code:
 
 ``` swift
-  /// This option allow some debug prints, usefull for checking behaviour of different calendar
-  /// as result u will see date in selected calendar and in gregorian calendar in same line
-  public static let debugMode = CalendarAppearenceOption(rawValue: 1 << 0)
+import UIKit
 
-  /// Enable enclosing (prev and next) month to be displayed
-  public static let showEnclosingMonth = CalendarAppearenceOption(rawValue: 1 << 1)
+final class MyRootController: RootSideMenuController {
+  // MARK: - LifeCycle
 
-  /// If enabled **showEnclosingMonth** option, this option will allow date selection for non selected month
-  public static let enableEnclosingMonthSelection = CalendarAppearenceOption(rawValue: 1 << 2)
+  override func viewDidLoad() {
+  	 // make sure this done before `super.viewDidLoad`, in other case you will receive assertion
+    RootSideMenuAppearence.menuType = MenuController.self
 
-  /// If enabled **showEnclosingMonth** option, day's that are in current month will be hightlighted
-  public static let hightlightCurrentMonth = CalendarAppearenceOption(rawValue: 1 << 3)
-
-  /// If selected `CalendarSelectionType.single`, this option may enable deselect already selected item
-  public static let allowSingleDeselectionForSingleMode = CalendarAppearenceOption(rawValue: 1 << 4)
-
-  /// Represent set of minimal (non) option for calendar
-  public static let noOption: CalendarAppearenceOption = []
-
-  /// Default set of options for calendar - `showEnclosingMonth` and `hightlightCurrentMonth`
-  public static let `default`: CalendarAppearenceOption = [.showEnclosingMonth, .hightlightCurrentMonth, .debugMode]
+    super.viewDidLoad()
+  }
+}
 
 ```
 
-#### Samples:
+✅ That's it - you done! Build and run the project.
 
-<div class="row">
-  <div class="column">
-    <p align="center">
-      <img alt="demo" src="./blobs/s_1.png" width="300">
-      <img alt="demo" src="./blobs/s_2.png" width="300">
-      <img alt="demo" src="./blobs/s_4.png" width="300">
-    </p>
-  </div>
-</div>
+To control menu state use `hideMenu` and `showMenu` actions from `RootSideMenuController`.
+
+
+### Advanced configuration
+
+User different options from `RootSideMenuAppearence` for controlling  appearence of menu
 
 ## TODO
 
 - test
-- multiselection of dates
-- range date selection
-- user-defined animation
+- option to move content instead of menu overlapping
+- more appearence options
+- simo menu (from left and right sides)
 
 ## Requirement
 
