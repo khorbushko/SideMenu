@@ -312,7 +312,7 @@ open class RootSideMenuController: UIViewController {
   private func closeMenuActionWithoutAnimation() {
     menuController?.view.layer.position = calculateFinalHiddenMenuPosition()
     dimmedView.layer.opacity = 0
-    movingProgress = 1
+    movingProgress = 0
 
     dimmedView.layer.removeAllAnimations()
     dimmedView.isHidden = true
@@ -326,7 +326,8 @@ open class RootSideMenuController: UIViewController {
       menuController?.view.layer.add(moveAnimation, forKey:nil)
       menuController?.view.layer.position = calculateFinalHiddenMenuPosition()
 
-      let fadeOutAnimation = fadeAnimFromValue(fromValue: CGFloat(1 - movingProgress), toValue: 0, delegate: self)
+      let fromValue: CGFloat = CGFloat(dimmedView.layer.opacity)
+      let fadeOutAnimation = fadeAnimFromValue(fromValue: fromValue, toValue: 0, delegate: self)
       dimmedView.layer.add(fadeOutAnimation, forKey: Constants.Animation.hideDimmedView)
       dimmedView.layer.opacity = 0
       movingProgress = 0
@@ -336,7 +337,7 @@ open class RootSideMenuController: UIViewController {
   private func openMenuActionWithoutAnimation() {
     menuController?.view.layer.position = calculateFinalOpenMenuPosition()
     dimmedView.layer.opacity = 1
-    movingProgress = 0
+    movingProgress = 1
 
     dimmedView.layer.removeAllAnimations()
     state = .open
@@ -348,14 +349,12 @@ open class RootSideMenuController: UIViewController {
     if let moveAnimation = openMenuAnimation() {
       menuController?.view.layer.add(moveAnimation, forKey:nil)
       menuController?.view.layer.position = calculateFinalOpenMenuPosition()
+      dimmedView.isHidden = false
 
-      if dimmedView.isHidden {
-        dimmedView.isHidden = false
-        dimmedView.layer.opacity = 1
-
-        let fadeInAnimation = fadeAnimFromValue(fromValue: CGFloat(1 - movingProgress), toValue: 1, delegate: self)
-        dimmedView.layer.add(fadeInAnimation, forKey: Constants.Animation.showDimmedView)
-      }
+      let fromValue: CGFloat = CGFloat(dimmedView.layer.opacity)
+      let fadeInAnimation = fadeAnimFromValue(fromValue: fromValue, toValue: 1, delegate: self)
+      dimmedView.layer.add(fadeInAnimation, forKey: Constants.Animation.showDimmedView)
+      dimmedView.layer.opacity = 1
       movingProgress = 1
     }
   }

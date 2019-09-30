@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E12D42C23421E5400E03BE8 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0E12D42923421E5400E03BE8 /* README.md */; };
+		0E12D42D23421E5400E03BE8 /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = 0E12D42A23421E5400E03BE8 /* LICENSE.md */; };
+		0E12D42E23421E5400E03BE8 /* HKSideMenu.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 0E12D42B23421E5400E03BE8 /* HKSideMenu.podspec */; };
 		0E331C562341E79300C957F1 /* MyRootController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E331C552341E79200C957F1 /* MyRootController.swift */; };
 		0E3D2E782341E63B00804C06 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3D2E772341E63B00804C06 /* AppDelegate.swift */; };
 		0E3D2E7A2341E63B00804C06 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3D2E792341E63B00804C06 /* SceneDelegate.swift */; };
@@ -22,6 +25,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E12D42923421E5400E03BE8 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		0E12D42A23421E5400E03BE8 /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = SOURCE_ROOT; };
+		0E12D42B23421E5400E03BE8 /* HKSideMenu.podspec */ = {isa = PBXFileReference; lastKnownFileType = file; path = HKSideMenu.podspec; sourceTree = SOURCE_ROOT; };
 		0E331C552341E79200C957F1 /* MyRootController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRootController.swift; sourceTree = "<group>"; };
 		0E3D2E742341E63B00804C06 /* HKSideMenu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HKSideMenu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E3D2E772341E63B00804C06 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -49,6 +55,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E12D42823421E4A00E03BE8 /* PodInfo */ = {
+			isa = PBXGroup;
+			children = (
+				0E12D42B23421E5400E03BE8 /* HKSideMenu.podspec */,
+				0E12D42A23421E5400E03BE8 /* LICENSE.md */,
+				0E12D42923421E5400E03BE8 /* README.md */,
+			);
+			name = PodInfo;
+			sourceTree = "<group>";
+		};
 		0E3D2E6B2341E63B00804C06 = {
 			isa = PBXGroup;
 			children = (
@@ -68,6 +84,7 @@
 		0E3D2E762341E63B00804C06 /* HKSideMenu */ = {
 			isa = PBXGroup;
 			children = (
+				0E12D42823421E4A00E03BE8 /* PodInfo */,
 				0E3D2E8C2341E66F00804C06 /* Source */,
 				0E3D2E772341E63B00804C06 /* AppDelegate.swift */,
 				0E3D2E792341E63B00804C06 /* SceneDelegate.swift */,
@@ -151,9 +168,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E12D42D23421E5400E03BE8 /* LICENSE.md in Resources */,
 				0E3D2E842341E63B00804C06 /* LaunchScreen.storyboard in Resources */,
 				0E3D2E812341E63B00804C06 /* Assets.xcassets in Resources */,
+				0E12D42C23421E5400E03BE8 /* README.md in Resources */,
 				0E3D2E7F2341E63B00804C06 /* Main.storyboard in Resources */,
+				0E12D42E23421E5400E03BE8 /* HKSideMenu.podspec in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -322,7 +342,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.4;
+				MARKETING_VERSION = 0.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gbSoft.HKSideMenu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -340,7 +360,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.4;
+				MARKETING_VERSION = 0.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gbSoft.HKSideMenu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
