@@ -13,7 +13,6 @@ s.source = { :git => "https://github.com/kirillgorbushko/SideMenu.git",
                 :tag => "#{s.version}" }
 s.framework = "UIKit"
 s.source_files = "HKSideMenu/Source/**/*.{swift}"
-s.resources = "HKSideMenu/Source/**/*.{png,jpeg,jpg,storyboard,xib,xcassets}"
 s.swift_version = "5.1"
 
 end
