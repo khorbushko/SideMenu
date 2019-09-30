@@ -12,7 +12,7 @@ s.homepage = "https://github.com/kirillgorbushko/SideMenu.git"
 s.source = { :git => "https://github.com/kirillgorbushko/SideMenu.git",
                 :tag => "#{s.version}" }
 s.framework = "UIKit"
-s.source_files = "HKSideMenu/Source/**/*.{swift}"
+s.source_files = "HKSideMenu/Source/*.{swift}"
 s.swift_version = "5.1"
 
 end

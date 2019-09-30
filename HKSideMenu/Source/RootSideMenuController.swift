@@ -14,7 +14,7 @@ import UIKit
  - Version: 0.1
  - Tag: 5000
  */
-public class RootSideMenuController: UIViewController {
+open class RootSideMenuController: UIViewController {
 
   enum Constants {
 
@@ -52,20 +52,20 @@ public class RootSideMenuController: UIViewController {
 
   // MARK: - LifeCycle
 
-  override public func viewDidLoad() {
+  override open func viewDidLoad() {
     super.viewDidLoad()
 
     addMenuController()
   }
 
-  override public func viewWillLayoutSubviews() {
+  override open func viewWillLayoutSubviews() {
     super.viewWillLayoutSubviews()
 
     menuController?.viewWillLayoutSubviews()
     drawShadowIfNeeded()
   }
 
-  override public func viewDidAppear(_ animated: Bool) {
+  override open func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
 
     prepareDimmedView()
@@ -396,7 +396,7 @@ extension RootSideMenuController: CAAnimationDelegate {
 
   // MARK : CAAnimationDelegate
 
-  public func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+  open func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
     if (anim == dimmedView.layer.animation(forKey: Constants.Animation.hideDimmedView)) {
       dimmedView.layer.removeAllAnimations()
       dimmedView.isHidden = true
