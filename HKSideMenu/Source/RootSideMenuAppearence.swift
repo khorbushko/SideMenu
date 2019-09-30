@@ -40,7 +40,7 @@ public class RootSideMenuAppearence {
   /// Indicate whenever we should show side menu from left or right side
   ///
   /// Default - Show from right
-  public static var showMenuOnRightSide: Bool = false
+  public static var showMenuOnRightSide: Bool = true
 
   /// Indicate whenever we should allow to perform damping pan for side menu when it comes to final position
   /// If enabled - make sure your side menu has some extended not clipped view
