@@ -24,9 +24,9 @@ final class MyRootController: RootSideMenuController {
   @IBAction private func myButtonAction() {
     switch state {
       case .open:
-        hideMenu()
+        hideMenu(true)
       case .closed:
-        showMenu()
+        showMenu(true)
     }
   }
 }

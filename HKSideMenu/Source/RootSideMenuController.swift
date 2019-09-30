@@ -220,7 +220,7 @@ open class RootSideMenuController: UIViewController {
       dimmedPanGesture.delaysTouchesBegan = false
       dimmedView.addGestureRecognizer(dimmedPanGesture)
 
-      let dimmedTapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(RootSideMenuController.hideMenu))
+      let dimmedTapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(RootSideMenuController.closeMenuAction))
       dimmedView.addGestureRecognizer(dimmedTapGesture)
     }
   }
@@ -321,7 +321,7 @@ open class RootSideMenuController: UIViewController {
     didCloseMenu?()
   }
 
-  private func closeMenuAction() {
+  @objc private func closeMenuAction() {
     if let moveAnimation = closeMenuAnimation() {
       menuController?.view.layer.add(moveAnimation, forKey:nil)
       menuController?.view.layer.position = calculateFinalHiddenMenuPosition()
