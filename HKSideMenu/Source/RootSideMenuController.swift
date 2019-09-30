@@ -74,13 +74,21 @@ open class RootSideMenuController: UIViewController {
   // MARK: - Public
 
   /// Call this function to hide menu
-  @objc public func hideMenu() {
-    moveMenuToState(.closed)
+  ///
+  /// - Parameter animated: Indicate if operation should be performe with animation
+  ///
+  /// - Version: 0.0.3
+  @objc open func hideMenu(_ animated: Bool) {
+    moveMenuToState(.closed, animated: animated)
   }
 
   /// Call this function to show menu
-  @objc public func showMenu() {
-    moveMenuToState(.open)
+  ///
+  /// - Parameter animated: Indicate if operation should be performe with animation
+  ///
+  /// - Version: 0.0.3
+  @objc open func showMenu(_ animated: Bool) {
+    moveMenuToState(.open, animated: animated)
   }
 
   // MARK: - Actions
@@ -281,16 +289,36 @@ open class RootSideMenuController: UIViewController {
     }
   }
 
-  private func moveMenuToState(_ newState: RootSideMenuState) {
+  private func moveMenuToState(_ newState: RootSideMenuState, animated: Bool = true) {
     if newState == state {
       return
     }
 
     if state == .open {
-      closeMenuAction()
+      if animated {
+        closeMenuAction()
+      } else {
+        closeMenuActionWithoutAnimation()
+      }
     } else {
-      openMenuAction()
+      if animated {
+        openMenuAction()
+      } else {
+        openMenuActionWithoutAnimation()
+      }
     }
+  }
+
+  private func closeMenuActionWithoutAnimation() {
+    menuController?.view.layer.position = calculateFinalHiddenMenuPosition()
+    dimmedView.layer.opacity = 0
+    movingProgress = 1
+
+    dimmedView.layer.removeAllAnimations()
+    dimmedView.isHidden = true
+    state = .closed
+
+    didCloseMenu?()
   }
 
   private func closeMenuAction() {
@@ -303,6 +331,17 @@ open class RootSideMenuController: UIViewController {
       dimmedView.layer.opacity = 0
       movingProgress = 0
     }
+  }
+
+  private func openMenuActionWithoutAnimation() {
+    menuController?.view.layer.position = calculateFinalOpenMenuPosition()
+    dimmedView.layer.opacity = 1
+    movingProgress = 0
+
+    dimmedView.layer.removeAllAnimations()
+    state = .open
+
+    didOpenMenu?()
   }
 
   private func openMenuAction() {
